@@ -1,0 +1,29 @@
+# Removes all follwoing and followers
+# Just paste into console on Chrome
+
+function clickAllUnfollowButtons() {
+  let buttons = document.querySelectorAll('[data-testid$="-unfollow"]');
+  buttons.forEach((button, index) => {
+    setTimeout(() => {
+      console.log(button.getAttribute('aria-label'));
+      button.click();
+      // After clicking the button, wait for 100ms before clicking the confirm button in the popup
+      setTimeout(() => {
+        let confirmButton = document.querySelector('[data-testid="confirmationSheetConfirm"]');
+        if (confirmButton) {
+          confirmButton.click();
+        }
+      }, 100);
+    }, index * 500);
+  });
+}
+
+function scrollAndProcess() {
+  clickAllUnfollowButtons();
+
+  setTimeout(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }, 500);
+}
+
+setInterval(scrollAndProcess, 2000);
