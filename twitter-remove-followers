@@ -1,4 +1,4 @@
-setInterval(() => {
+function removeFollower() {
   // Query all the "More" buttons and process each one.
   const moreButtons = document.querySelectorAll('.css-18t94o4.css-1dbjc4n.r-1777fci.r-bt1l66.r-1ny4l3l.r-bztko3.r-lrvibr');
   
@@ -27,8 +27,17 @@ setInterval(() => {
     }, index * 1500);
   });
 
-  // Scroll down to load more followers.
+  // Check if more buttons exist, if not scroll down
   setTimeout(() => {
-    window.scrollTo(0, document.body.scrollHeight);
-  }, 2000);
-}, 2000);
+    if(document.querySelectorAll('.css-18t94o4.css-1dbjc4n.r-1777fci.r-bt1l66.r-1ny4l3l.r-bztko3.r-lrvibr').length === 0) {
+      window.scrollTo(0, document.body.scrollHeight);
+      // Wait for new items to load then start the process again
+      setTimeout(removeFollower, 2000);
+    } else {
+      // There are still items to process, continue the process
+      removeFollower();
+    }
+  }, moreButtons.length * 1500);
+}
+
+removeFollower();
